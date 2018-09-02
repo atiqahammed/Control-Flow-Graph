@@ -11,15 +11,14 @@ public class Test {
 		System.out.println("++++++++++++++++++");
 		System.out.println();
 		System.out.println();
-		
-		CodeReader codeReader= new CodeReader();
+
+		CodeReader codeReader = new CodeReader();
 		ArrayList<String> lines = codeReader.redeCode("Codes/code1.java");
 		System.out.println(lines.size());
-		
-		
-		for(String string: lines)
-			System.out.println(string);
 
+		for (String string : lines)
+			System.out.println(string + " "+string.length());
 	}
+	
 
 }

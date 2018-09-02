@@ -24,8 +24,8 @@ public class CodeReader {
 		String st;
 		try {
 			while ((st = br.readLine()) != null) {
-				allLinesOfCurrentFile.add(st);
-				// System.out.println(st);
+				if(notBlankLine(st))
+					allLinesOfCurrentFile.add(st);
 			}
 
 		} catch (IOException e) {
@@ -34,6 +34,23 @@ public class CodeReader {
 		}
 		return allLinesOfCurrentFile;
 
+	}
+
+	private boolean notBlankLine(String st) {
+		int count = 0;
+		for(int i = 0; i < st.length(); i++) {
+			if(st.charAt(i) == ' ')
+				continue;
+			else if(st.charAt(i) == '\n')
+				continue;
+			else if(st.charAt(i) == '\t')
+				continue;
+			else {
+				count++;
+			}
+		}
+		if(count > 0) return true;
+		return false;
 	}
 
 }
