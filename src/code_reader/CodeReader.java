@@ -45,9 +45,8 @@ public class CodeReader {
 				continue;
 			else if(st.charAt(i) == '\t')
 				continue;
-			else {
+			else 
 				count++;
-			}
 		}
 		if(count > 0) return true;
 		return false;
