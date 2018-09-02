@@ -1,5 +1,7 @@
 package main;
 
+import java.util.ArrayList;
+
 import code_reader.CodeReader;
 
 public class Test {
@@ -11,7 +13,12 @@ public class Test {
 		System.out.println();
 		
 		CodeReader codeReader= new CodeReader();
-		codeReader.redeCode("Codes/code1.java");
+		ArrayList<String> lines = codeReader.redeCode("Codes/code1.java");
+		System.out.println(lines.size());
+		
+		
+		for(String string: lines)
+			System.out.println(string);
 
 	}
 
