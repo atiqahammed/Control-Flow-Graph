@@ -2,6 +2,7 @@ package main;
 
 import java.util.ArrayList;
 
+import class_analyzer.MethodFinder;
 import code_reader.CodeReader;
 
 public class Test {
@@ -14,10 +15,21 @@ public class Test {
 
 		CodeReader codeReader = new CodeReader();
 		ArrayList<String> lines = codeReader.redeCode("Codes/code1.java");
-		System.out.println(lines.size());
-
-		for (String string : lines)
-			System.out.println(string + " "+string.length());
+		
+		
+		MethodFinder finder = new MethodFinder();
+		finder.isMethodStartingLine(lines.get(0), null);
+		
+		
+		
+		
+		
+		
+		
+		
+		//System.out.println(lines.size());
+		//for (String string : lines)
+		//	System.out.println(string + " "+string.length());
 	}
 	
 
