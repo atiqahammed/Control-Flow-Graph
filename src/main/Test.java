@@ -24,6 +24,11 @@ public class Test {
 		
 		
 		finder.findMethods(lines);
+		
+		
+		
+		
+		
 	}
 	
 
