@@ -19,11 +19,7 @@ public class MethodFinder {
 			}
 
 			if (isMethodStartingLine(currentLine, nextLine)) {
-				
-				
 				System.out.println(currentLine);
-				
-				
 			}
 
 		}
