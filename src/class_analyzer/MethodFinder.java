@@ -58,6 +58,12 @@ public class MethodFinder {
 		MY_PATTERN = Pattern.compile("while");
 		matcher = MY_PATTERN.matcher(currentLine);
 		if(matcher.find()) return true;
+		MY_PATTERN = Pattern.compile("if");
+		matcher = MY_PATTERN.matcher(currentLine);
+		if(matcher.find()) return true;
+		MY_PATTERN = Pattern.compile("}");
+		matcher = MY_PATTERN.matcher(currentLine);
+		if(matcher.find()) return true;
 		return false;
 	}
 
