@@ -18,19 +18,12 @@ public class Test {
 		
 		
 		MethodFinder finder = new MethodFinder();
-		//finder.isMethodStartingLine(lines.get(0), null);
 		
 		
 		
 		
 		
 		finder.findMethods(lines);
-		
-		
-		//System.out.println(lines.size());
-		//for (String string : lines)
-			//if(finder.isMethodStartingLine(string, null))
-			//System.out.println(string + " "+string.length());
 	}
 	
 
