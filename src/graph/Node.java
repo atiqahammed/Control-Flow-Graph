@@ -10,6 +10,7 @@ public class Node {
 	private int nodeNumber;
 	private ArrayList<Statement> statements = new ArrayList<>();
 	private Node parentNode;
+	public boolean isLoop = false;
 	
 	public void setParentNode(Node parent) {
 		parentNode = parent;

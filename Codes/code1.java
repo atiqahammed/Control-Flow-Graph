@@ -5,10 +5,33 @@ class ForLoopExample {
         Matcher m = Pattern.compile(p).matcher(s);
     	
         
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < 10; i++) {
         	System.out.println();
+        	statement1
+        	statement2
+        	
+        }
         
         statement
+        
+        for (;;)
+      	 {
+              System.out.println("---> Your choice: ");
+              choice = input.nextInt();
+              if (choice==1)
+                  playGame();
+              if (choice==2)
+                  loadGame();
+              if (choice==3)
+                  options();
+              if (choice==4)
+                  credits();
+              if (choice==5)
+                  System.out.println("End of Game\n Thank you for playing with us!");
+                  break;
+              else
+                  System.out.println("Not a valid choice!\n Please try again...\n");=[;'mm
+          }
         
     	 
     }
