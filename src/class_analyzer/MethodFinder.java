@@ -33,10 +33,6 @@ public class MethodFinder {
 				}
 				
 				i++;
-				/*
-				for(; i < allCodeLines.size(); i++) {
-					System.out.println(".." + allCodeLines.get(i + 1));
-				}*/
 				
 				ArrayList<String> currentMethod = new ArrayList<>();
 				
@@ -68,18 +64,27 @@ public class MethodFinder {
 				}
 				
 				
+				currentMethod.remove(currentMethod.size()-1);
 				
 				allMethods.add(currentMethod);
-				System.out.println("/////////////////////////////////");
-				
-				
+				System.out.println("/////////////////////////////////");	
 			}
-			
-			
-
 		}
 		
-		System.out.println(allMethods.size());
+		allMethods.get(allMethods.size()-1).remove(allMethods.get(allMethods.size()-1).size()-1);
+		
+		for(int i = 0; i < allMethods.size(); i++) {
+			ArrayList<String> method = allMethods.get(i);
+			
+			System.out.println("////////////////////////////");
+			for(int j = 0; j < method.size(); j++) {
+				System.out.println(method.get(j));
+			}
+			
+			System.out.println("..........................");
+		}
+		
+		//System.out.println(allMethods.size());
 
 	}
 
