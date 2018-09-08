@@ -7,6 +7,10 @@ import com.sun.org.apache.regexp.internal.recompile;
 import com.sun.org.apache.xerces.internal.impl.xs.identity.Selector.Matcher;
 
 public class MethodFinder {
+	
+	boolean functionNameNotFound = false;
+	boolean nextLineIsNeeded = false;
+	ArrayList<ArrayList<String>> allMethods = new ArrayList<>();
 
 	public void findMethods(ArrayList<String> allCodeLines) {
 
@@ -20,6 +24,51 @@ public class MethodFinder {
 
 			if (isMethodStartingLine(currentLine, nextLine)) {
 				System.out.println(currentLine);
+				System.out.println("//////////////////////////////////");
+				if(nextLineIsNeeded && !currentLine.endsWith("{")) {
+					//System.out.println("poreer line ta kaje lagche");
+					i++;
+					nextLineIsNeeded = false;
+					functionNameNotFound = false;
+				}
+				
+				i++;
+				/*
+				for(; i < allCodeLines.size(); i++) {
+					System.out.println(".." + allCodeLines.get(i + 1));
+				}*/
+				
+				ArrayList<String> currentMethod = new ArrayList<>();
+				
+				boolean nextMethodFound = false;
+				while(!nextMethodFound) {
+					String tempCurrentLine = null;
+					String tempNextLine = null;
+					if(i<allCodeLines.size())
+						tempCurrentLine = allCodeLines.get(i);
+					if(i< allCodeLines.size()-1)
+						tempNextLine = allCodeLines.get(i+1);
+					if(isMethodStartingLine(tempCurrentLine, tempNextLine)) { 
+						nextMethodFound = true;
+						System.out.println("====" + tempCurrentLine);
+					}
+					
+					if(i >= allCodeLines.size()) { 
+						//System.out.println("before break");
+						break;
+					}
+					
+					System.out.println(allCodeLines.get(i));
+					i++;
+					
+				}
+				
+				
+				
+				
+				System.out.println("/////////////////////////////////");
+				
+				
 			}
 
 		}
@@ -41,7 +90,24 @@ public class MethodFinder {
 			if(currentLine.endsWith("{")) paranthesisFound = true;
 			Pattern MY_PATTERN = Pattern.compile("\\{");
 			java.util.regex.Matcher matcher = MY_PATTERN.matcher(nextLine);
-			if(matcher.find()) paranthesisFound = true;
+			
+			if(!paranthesisFound) {
+				functionNameNotFound = true;
+			}
+			
+			if(matcher.find()) {
+				paranthesisFound = true;
+				//nextLineIsNeeded = true;
+				if(functionNameNotFound) {
+					/*System.out.println("//////////////");
+					System.out.println(currentLine);
+					System.out.println(nextLine);
+					System.out.println("...................");
+					System.out.println("dekhi ki hy");*/
+					nextLineIsNeeded = true;
+				}
+			}
+				
 			
 			//if(!paranthesisFound && nextLine.startsWith("{")) paranthesisFound = true; 
 		}
