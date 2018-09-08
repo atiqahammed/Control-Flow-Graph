@@ -5,36 +5,12 @@ class ForLoopExample {
         Matcher m = Pattern.compile(p).matcher(s);
     	
         
+        for(int i = 0; i < 10; i++)
+        	System.out.println();
         
+        statement
         
-        
-        
-    	        for (;;)
-    	        {
-            System.out.println("---> Your choice: ");
-            choice = input.nextInt();
-            if (choice==1)
-                playGame();
-            if (choice==2)
-                loadGame();
-            if (choice==3)
-                options();
-            if (choice==4)
-                credits();
-            if (choice==5)
-                System.out.println("End of Game\n Thank you for playing with us!");
-                break;
-            else
-                System.out.println("Not a valid choice!\n Please try again...\n");=[;'mm
-        }
-    	
-    	
-    	
-    	
-    	
-    	for(int i=10; i>1; i--){
-              System.out.println("The value of i is: "+i);
-        }
+    	 
     }
     
     public static List<String> get_matches(String s, String p) 
@@ -46,6 +22,54 @@ class ForLoopExample {
             matches.add(m.group(1));
         }
         return matches;
+        
+        
+        
+        
+        
+        
+        for (;;)
+   	 {
+           System.out.println("---> Your choice: ");
+           choice = input.nextInt();
+           if (choice==1)
+               playGame();
+           if (choice==2)
+               loadGame();
+           if (choice==3)
+               options();
+           if (choice==4)
+               credits();
+           if (choice==5)
+               System.out.println("End of Game\n Thank you for playing with us!");
+               break;
+           else
+               System.out.println("Not a valid choice!\n Please try again...\n");=[;'mm
+       }
+   	
+   	
+   	
+   	
+   	
+   	for(int i=10; i>1; i--){
+             System.out.println("The value of i is: "+i);
+       }
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+        
+        
+        
+        
+        
     }
     
     
