@@ -4,7 +4,12 @@ class ForLoopExample {
     	List<String> matches = new ArrayList<String>();
         Matcher m = Pattern.compile(p).matcher(s);
     	
-    	for (;;){
+        
+        
+        
+        
+        
+    	        for (;;){
             System.out.println("---> Your choice: ");
             choice = input.nextInt();
             if (choice==1)
