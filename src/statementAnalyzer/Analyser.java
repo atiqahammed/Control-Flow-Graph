@@ -22,6 +22,9 @@ public class Analyser {
 
 		int i = 0;
 
+		
+		
+		
 		while (i < method.size()) {
 			// System.out.println(method.get(i).getLineNumber() +" "+
 			// method.get(i).getStatement());
@@ -34,8 +37,12 @@ public class Analyser {
 				} else if (paranthesisFound(method.get(i + 1).getStatement())) {
 					System.out.println("paichi + 2s");
 					System.out.println(method.get(i).getLineNumber() + "  " + method.get(i).getStatement());
+				} else {
+					
 				}
 
+			} else {
+				
 			}
 
 			// break;
