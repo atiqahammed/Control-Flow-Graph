@@ -10,7 +10,7 @@ class ForLoopExample {
     	
     	for(int i=10; i>1; i--){
               System.out.println("The value of i is: "+i);
-         }
+        }
     }
     
     public static List<String> get_matches(String s, String p) 

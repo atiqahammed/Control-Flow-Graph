@@ -7,10 +7,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import projectOfDataClass.Statement;
+
 public class CodeReader {
 
-	public ArrayList<String> redeCode(String path) {
-		ArrayList<String> allLinesOfCurrentFile = new ArrayList<>();
+	public ArrayList<Statement> redeCode(String path) {
+		ArrayList<Statement> allLinesOfCurrentFile = new ArrayList<>();
 		File file = new File(path);
 		BufferedReader br = null;
 
@@ -22,10 +24,12 @@ public class CodeReader {
 		}
 
 		String st;
+		int lineNumber = 1;
 		try {
 			while ((st = br.readLine()) != null) {
 				if(notBlankLine(st))
-					allLinesOfCurrentFile.add(st);
+					allLinesOfCurrentFile.add(new Statement(st, lineNumber));
+				lineNumber++;
 			}
 
 		} catch (IOException e) {

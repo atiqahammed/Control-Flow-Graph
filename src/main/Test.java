@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import class_analyzer.MethodFinder;
 import code_reader.CodeReader;
+import projectOfDataClass.Statement;
 
 public class Test {
 
@@ -14,7 +15,7 @@ public class Test {
 		System.out.println();
 
 		CodeReader codeReader = new CodeReader();
-		ArrayList<String> lines = codeReader.redeCode("Codes/code1.java");
+		ArrayList<Statement> lines = codeReader.redeCode("Codes/code1.java");
 		
 		
 		MethodFinder finder = new MethodFinder();

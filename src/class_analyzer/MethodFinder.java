@@ -6,27 +6,26 @@ import java.util.regex.Pattern;
 import com.sun.org.apache.regexp.internal.recompile;
 import com.sun.org.apache.xerces.internal.impl.xs.identity.Selector.Matcher;
 
+import projectOfDataClass.Statement;
+
 public class MethodFinder {
 	
 	boolean functionNameNotFound = false;
 	boolean nextLineIsNeeded = false;
-	ArrayList<ArrayList<String>> allMethods = new ArrayList<>();
+	ArrayList<ArrayList<Statement>> allMethods = new ArrayList<>();
 
-	public void findMethods(ArrayList<String> allCodeLines) {
+	public void findMethods(ArrayList<Statement> allCodeLines) {
 
 		for (int i = 0; i < allCodeLines.size(); i++) {
 			String nextLine = null;
-			String currentLine = allCodeLines.get(i);
+			String currentLine = allCodeLines.get(i).getStatement();
 
 			if (i < allCodeLines.size() - 1) {
-				nextLine = allCodeLines.get(i + 1);
+				nextLine = allCodeLines.get(i + 1).getStatement();
 			}
 
 			if (isMethodStartingLine(currentLine, nextLine)) {
-				//System.out.println(currentLine);
-				//System.out.println("//////////////////////////////////");
 				if(nextLineIsNeeded && !currentLine.endsWith("{")) {
-					//System.out.println("poreer line ta kaje lagche");
 					i++;
 					nextLineIsNeeded = false;
 					functionNameNotFound = false;
@@ -34,16 +33,16 @@ public class MethodFinder {
 				
 				i++;
 				
-				ArrayList<String> currentMethod = new ArrayList<>();
+				ArrayList<Statement> currentMethod = new ArrayList<>();
 				
 				boolean nextMethodFound = false;
 				while(!nextMethodFound) {
 					String tempCurrentLine = null;
 					String tempNextLine = null;
 					if(i<allCodeLines.size())
-						tempCurrentLine = allCodeLines.get(i);
+						tempCurrentLine = allCodeLines.get(i).getStatement();
 					if(i< allCodeLines.size()-1)
-						tempNextLine = allCodeLines.get(i+1);
+						tempNextLine = allCodeLines.get(i+1).getStatement();
 					if(isMethodStartingLine(tempCurrentLine, tempNextLine)) { 
 						i--;
 						nextMethodFound = true;
@@ -74,11 +73,11 @@ public class MethodFinder {
 		allMethods.get(allMethods.size()-1).remove(allMethods.get(allMethods.size()-1).size()-1);
 		
 		for(int i = 0; i < allMethods.size(); i++) {
-			ArrayList<String> method = allMethods.get(i);
+			ArrayList<Statement> method = allMethods.get(i);
 			
 			System.out.println("////////////////////////////");
 			for(int j = 0; j < method.size(); j++) {
-				System.out.println(method.get(j));
+				System.out.println(method.get(j).getLineNumber()+"  "+method.get(j).getStatement());
 			}
 			
 			System.out.println("..........................");
