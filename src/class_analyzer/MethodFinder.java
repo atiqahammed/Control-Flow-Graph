@@ -14,7 +14,7 @@ public class MethodFinder {
 	boolean nextLineIsNeeded = false;
 	ArrayList<ArrayList<Statement>> allMethods = new ArrayList<>();
 
-	public void findMethods(ArrayList<Statement> allCodeLines) {
+	public ArrayList<ArrayList<Statement>>  findMethods(ArrayList<Statement> allCodeLines) {
 
 		for (int i = 0; i < allCodeLines.size(); i++) {
 			String nextLine = null;
@@ -46,7 +46,6 @@ public class MethodFinder {
 					if(isMethodStartingLine(tempCurrentLine, tempNextLine)) { 
 						i--;
 						nextMethodFound = true;
-						//System.out.println("====" + tempCurrentLine);
 						break;
 						
 					}
@@ -72,6 +71,8 @@ public class MethodFinder {
 		
 		allMethods.get(allMethods.size()-1).remove(allMethods.get(allMethods.size()-1).size()-1);
 		
+		
+		/*
 		for(int i = 0; i < allMethods.size(); i++) {
 			ArrayList<Statement> method = allMethods.get(i);
 			
@@ -83,7 +84,10 @@ public class MethodFinder {
 			System.out.println("..........................");
 		}
 		
+		*/
+		
 		//System.out.println(allMethods.size());
+		return allMethods;
 
 	}
 

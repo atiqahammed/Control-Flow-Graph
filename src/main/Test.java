@@ -17,14 +17,10 @@ public class Test {
 		CodeReader codeReader = new CodeReader();
 		ArrayList<Statement> lines = codeReader.redeCode("Codes/code1.java");
 		
-		
 		MethodFinder finder = new MethodFinder();
-		
-		
-		
-		
-		
 		finder.findMethods(lines);
+		
+		
 		
 		
 		
