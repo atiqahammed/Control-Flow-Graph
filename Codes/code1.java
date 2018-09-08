@@ -1,8 +1,26 @@
 class ForLoopExample {
     public static void main(String args[]){
-         
     	
+    	List<String> matches = new ArrayList<String>();
+        Matcher m = Pattern.compile(p).matcher(s);
     	
+    	for (;;){
+            System.out.println("---> Your choice: ");
+            choice = input.nextInt();
+            if (choice==1)
+                playGame();
+            if (choice==2)
+                loadGame();
+            if (choice==3)
+                options();
+            if (choice==4)
+                credits();
+            if (choice==5)
+                System.out.println("End of Game\n Thank you for playing with us!");
+                break;
+            else
+                System.out.println("Not a valid choice!\n Please try again...\n");=[;'mm
+        }
     	
     	
     	

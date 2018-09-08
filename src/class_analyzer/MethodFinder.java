@@ -9,12 +9,12 @@ import com.sun.org.apache.xerces.internal.impl.xs.identity.Selector.Matcher;
 import projectOfDataClass.Statement;
 
 public class MethodFinder {
-	
+
 	boolean functionNameNotFound = false;
 	boolean nextLineIsNeeded = false;
 	ArrayList<ArrayList<Statement>> allMethods = new ArrayList<>();
 
-	public ArrayList<ArrayList<Statement>>  findMethods(ArrayList<Statement> allCodeLines) {
+	public ArrayList<ArrayList<Statement>> findMethods(ArrayList<Statement> allCodeLines) {
 
 		for (int i = 0; i < allCodeLines.size(); i++) {
 			String nextLine = null;
@@ -25,111 +25,89 @@ public class MethodFinder {
 			}
 
 			if (isMethodStartingLine(currentLine, nextLine)) {
-				if(nextLineIsNeeded && !currentLine.endsWith("{")) {
+				if (nextLineIsNeeded && !currentLine.endsWith("{")) {
 					i++;
 					nextLineIsNeeded = false;
 					functionNameNotFound = false;
 				}
-				
+
 				i++;
-				
+
 				ArrayList<Statement> currentMethod = new ArrayList<>();
-				
+
 				boolean nextMethodFound = false;
-				while(!nextMethodFound) {
+				while (!nextMethodFound) {
 					String tempCurrentLine = null;
 					String tempNextLine = null;
-					if(i<allCodeLines.size())
+					if (i < allCodeLines.size())
 						tempCurrentLine = allCodeLines.get(i).getStatement();
-					if(i< allCodeLines.size()-1)
-						tempNextLine = allCodeLines.get(i+1).getStatement();
-					if(isMethodStartingLine(tempCurrentLine, tempNextLine)) { 
+					if (i < allCodeLines.size() - 1)
+						tempNextLine = allCodeLines.get(i + 1).getStatement();
+					if (isMethodStartingLine(tempCurrentLine, tempNextLine)) {
 						i--;
 						nextMethodFound = true;
 						break;
-						
+
 					}
-					
-					if(i >= allCodeLines.size()) { 
-						//System.out.println("before break");
+
+					if (i >= allCodeLines.size()) {
+						// System.out.println("before break");
 						break;
 					}
-					
+
 					currentMethod.add(allCodeLines.get(i));
-					//System.out.println(allCodeLines.get(i));
+					// System.out.println(allCodeLines.get(i));
 					i++;
-					
+
 				}
-				
-				
-				currentMethod.remove(currentMethod.size()-1);
-				
+
+				currentMethod.remove(currentMethod.size() - 1);
+
 				allMethods.add(currentMethod);
-				//System.out.println("/////////////////////////////////");	
+				// System.out.println("/////////////////////////////////");
 			}
 		}
-		
-		allMethods.get(allMethods.size()-1).remove(allMethods.get(allMethods.size()-1).size()-1);
-		
-		
-		/*
-		for(int i = 0; i < allMethods.size(); i++) {
-			ArrayList<Statement> method = allMethods.get(i);
-			
-			System.out.println("////////////////////////////");
-			for(int j = 0; j < method.size(); j++) {
-				System.out.println(method.get(j).getLineNumber()+"  "+method.get(j).getStatement());
-			}
-			
-			System.out.println("..........................");
-		}
-		
-		*/
-		
-		//System.out.println(allMethods.size());
+
+		allMethods.get(allMethods.size() - 1).remove(allMethods.get(allMethods.size() - 1).size() - 1);
 		return allMethods;
 
 	}
 
 	public boolean isMethodStartingLine(String currentLine, String nextLine) {
-		if(currentLine == null) return false;
+		if (currentLine == null)
+			return false;
 		String allWards[] = currentLine.split(" ");
 		boolean isClassDeclaration = checkClassDecleration(allWards);
 		boolean numverOfWordCheck = checkNumberOfWords(allWards);
 		boolean bracketFound = checkBreacket(currentLine);
-		boolean endWithSemicolon  = checkSemicolon(currentLine);
-		boolean keyWordFound = checkKeyWords(currentLine); 
+		boolean endWithSemicolon = checkSemicolon(currentLine);
+		boolean keyWordFound = checkKeyWords(currentLine);
 		boolean paranthesisFound = false;
-		
-		if(nextLine == null) {
-			if(currentLine.endsWith("{")) paranthesisFound = true;
+
+		if (nextLine == null) {
+			if (currentLine.endsWith("{"))
+				paranthesisFound = true;
 		} else {
-			if(currentLine.endsWith("{")) paranthesisFound = true;
+			if (currentLine.endsWith("{"))
+				paranthesisFound = true;
 			Pattern MY_PATTERN = Pattern.compile("\\{");
 			java.util.regex.Matcher matcher = MY_PATTERN.matcher(nextLine);
-			
-			if(!paranthesisFound) {
+
+			if (!paranthesisFound) {
 				functionNameNotFound = true;
 			}
-			
-			if(matcher.find()) {
+
+			if (matcher.find()) {
 				paranthesisFound = true;
-				//nextLineIsNeeded = true;
-				if(functionNameNotFound) {
-					/*System.out.println("//////////////");
-					System.out.println(currentLine);
-					System.out.println(nextLine);
-					System.out.println("...................");
-					System.out.println("dekhi ki hy");*/
+				if (functionNameNotFound) {
 					nextLineIsNeeded = true;
 				}
 			}
-				
-			
-			//if(!paranthesisFound && nextLine.startsWith("{")) paranthesisFound = true; 
 		}
-		
-		if(!isClassDeclaration && !keyWordFound && numverOfWordCheck && bracketFound && !endWithSemicolon && paranthesisFound) return true;
+
+		if (!isClassDeclaration && !keyWordFound && numverOfWordCheck && bracketFound && !endWithSemicolon
+				&& paranthesisFound)
+			return true;
 
 		return false;
 	}
@@ -137,21 +115,26 @@ public class MethodFinder {
 	private boolean checkKeyWords(String currentLine) {
 		Pattern MY_PATTERN = Pattern.compile("for");
 		java.util.regex.Matcher matcher = MY_PATTERN.matcher(currentLine);
-		if(matcher.find()) return true;
+		if (matcher.find())
+			return true;
 		MY_PATTERN = Pattern.compile("while");
 		matcher = MY_PATTERN.matcher(currentLine);
-		if(matcher.find()) return true;
+		if (matcher.find())
+			return true;
 		MY_PATTERN = Pattern.compile("if");
 		matcher = MY_PATTERN.matcher(currentLine);
-		if(matcher.find()) return true;
+		if (matcher.find())
+			return true;
 		MY_PATTERN = Pattern.compile("}");
 		matcher = MY_PATTERN.matcher(currentLine);
-		if(matcher.find()) return true;
+		if (matcher.find())
+			return true;
 		return false;
 	}
 
 	private boolean checkSemicolon(String currentLine) {
-		if(currentLine.endsWith(";")) return true;
+		if (currentLine.endsWith(";"))
+			return true;
 		return false;
 	}
 
