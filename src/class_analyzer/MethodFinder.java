@@ -49,8 +49,11 @@ public class MethodFinder {
 					if(i< allCodeLines.size()-1)
 						tempNextLine = allCodeLines.get(i+1);
 					if(isMethodStartingLine(tempCurrentLine, tempNextLine)) { 
+						i--;
 						nextMethodFound = true;
 						System.out.println("====" + tempCurrentLine);
+						break;
+						
 					}
 					
 					if(i >= allCodeLines.size()) { 
@@ -58,24 +61,30 @@ public class MethodFinder {
 						break;
 					}
 					
-					System.out.println(allCodeLines.get(i));
+					currentMethod.add(allCodeLines.get(i));
+					//System.out.println(allCodeLines.get(i));
 					i++;
 					
 				}
 				
 				
 				
-				
+				allMethods.add(currentMethod);
 				System.out.println("/////////////////////////////////");
 				
 				
 			}
+			
+			
 
 		}
+		
+		System.out.println(allMethods.size());
 
 	}
 
 	public boolean isMethodStartingLine(String currentLine, String nextLine) {
+		if(currentLine == null) return false;
 		String allWards[] = currentLine.split(" ");
 		boolean isClassDeclaration = checkClassDecleration(allWards);
 		boolean numverOfWordCheck = checkNumberOfWords(allWards);
