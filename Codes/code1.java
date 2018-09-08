@@ -9,7 +9,8 @@ class ForLoopExample {
         
         
         
-    	        for (;;){
+    	        for (;;)
+    	        {
             System.out.println("---> Your choice: ");
             choice = input.nextInt();
             if (choice==1)
