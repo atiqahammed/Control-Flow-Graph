@@ -23,8 +23,8 @@ public class MethodFinder {
 			}
 
 			if (isMethodStartingLine(currentLine, nextLine)) {
-				System.out.println(currentLine);
-				System.out.println("//////////////////////////////////");
+				//System.out.println(currentLine);
+				//System.out.println("//////////////////////////////////");
 				if(nextLineIsNeeded && !currentLine.endsWith("{")) {
 					//System.out.println("poreer line ta kaje lagche");
 					i++;
@@ -47,7 +47,7 @@ public class MethodFinder {
 					if(isMethodStartingLine(tempCurrentLine, tempNextLine)) { 
 						i--;
 						nextMethodFound = true;
-						System.out.println("====" + tempCurrentLine);
+						//System.out.println("====" + tempCurrentLine);
 						break;
 						
 					}
@@ -67,7 +67,7 @@ public class MethodFinder {
 				currentMethod.remove(currentMethod.size()-1);
 				
 				allMethods.add(currentMethod);
-				System.out.println("/////////////////////////////////");	
+				//System.out.println("/////////////////////////////////");	
 			}
 		}
 		
