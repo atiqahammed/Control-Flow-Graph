@@ -38,14 +38,19 @@ public class Analyser {
 		while (i < method.size()) {
 			// System.out.println(method.get(i).getLineNumber() +" "+
 			// method.get(i).getStatement());
+			
+			
+			if(isIfStateent(method.get(i).getStatement())) {
+				System.out.println("paichi if statement");
+			}
+			
 
 			if (isForloopStarting(method.get(i).getStatement())) {
-
 				Node previousNode = nodeStack.pop();
 				previousNode.addChild(nodeNumber);
 				currentNode = new Node(nodeNumber);
 				nodeNumber++;
-
+				
 				currentNode.setParentNode(previousNode);
 				currentNode.addStatement(method.get(i));
 
@@ -153,6 +158,11 @@ public class Analyser {
 		System.out.println("---------------------------------------------------------------");
 		System.out.print("");
 
+	}
+
+	private boolean isIfStateent(String statement) {
+		
+		return patternMatcher.isMatch("^(\\s)*if", statement);
 	}
 
 	private boolean endParanthesisFound(String statement) {
