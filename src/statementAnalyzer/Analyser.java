@@ -55,6 +55,16 @@ public class Analyser {
 				
 				graph.add(currentNode);
 				
+				if(paranthesisFound(method.get(i).getStatement())) {
+					
+				} else if(paranthesisFound(method.get(i + 1).getStatement())) {
+					
+				} else {
+					System.out.println("paichi");
+				}
+				
+				
+				
 				
 				
 			}
@@ -184,7 +194,6 @@ public class Analyser {
 				} else {
 					System.out.print("0\t");
 				}
-				//System.out.print(index2+1+"\t");
 			}
 			
 			System.out.println();
