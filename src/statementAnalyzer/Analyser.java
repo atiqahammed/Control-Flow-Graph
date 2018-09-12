@@ -41,7 +41,22 @@ public class Analyser {
 			
 			
 			if(isIfStateent(method.get(i).getStatement())) {
-				System.out.println("paichi if statement");
+				//System.out.println("paichi if statement");
+				
+				Node previousNode = nodeStack.pop();
+				
+				
+				currentNode = new Node(nodeNumber);
+				nodeNumber++;
+				
+				
+				currentNode.setParentNode(previousNode);
+				previousNode.addChild(currentNode.getNodeNumber()); 
+				
+				graph.add(currentNode);
+				
+				
+				
 			}
 			
 
@@ -158,6 +173,25 @@ public class Analyser {
 		System.out.println("---------------------------------------------------------------");
 		System.out.print("");
 
+		
+		for(int index1 = 0; index1 < graph.size(); index1++) {
+			Node node = graph.get(index1);
+			
+			System.out.print("Node Number:  " + node.getNodeNumber() +"\t\t");
+			for(int index2 = 0; index2 < graph.size(); index2++) {
+				if(node.isChild(index2+1)) {
+					System.out.print("1\t");
+				} else {
+					System.out.print("0\t");
+				}
+				//System.out.print(index2+1+"\t");
+			}
+			
+			System.out.println();
+		}
+		
+		
+		
 	}
 
 	private boolean isIfStateent(String statement) {

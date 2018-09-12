@@ -11,6 +11,7 @@ public class Node {
 	private ArrayList<Statement> statements = new ArrayList<>();
 	private Node parentNode;
 	public boolean isLoop = false;
+	public boolean isIf = false;
 	
 	public void setParentNode(Node parent) {
 		parentNode = parent;
@@ -50,6 +51,16 @@ public class Node {
 	
 	public int getNodeNumber() {
 		return nodeNumber;
+	}
+
+	public boolean isChild(int childNumber) {
+		
+		for(int i = 0;i < childList.size(); i++)
+			if(childList.get(i) == childNumber) 
+				return true;
+		
+		
+		return false;
 	}
 	
 	
