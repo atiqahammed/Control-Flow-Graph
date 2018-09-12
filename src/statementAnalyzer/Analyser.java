@@ -104,7 +104,7 @@ public class Analyser {
 
 			}
 
-			else if (endParanthesisFound(method.get(i).getStatement())) {
+			else if (endParanthesisFound(method.get(i).getStatement()) && !parentOfEndParenthasis.isEmpty() ) {
 
 				// System.out.println("end of bracket");
 
