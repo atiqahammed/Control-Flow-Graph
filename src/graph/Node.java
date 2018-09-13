@@ -12,6 +12,7 @@ public class Node {
 	private Node parentNode;
 	public boolean isLoop = false;
 	public boolean isIf = false;
+	public boolean parentOfIf = false;
 	
 	public void setParentNode(Node parent) {
 		parentNode = parent;
@@ -61,6 +62,19 @@ public class Node {
 		
 		
 		return false;
+	}
+	
+	public Node getParent() {
+		return parentNode;
+	}
+	
+	public ArrayList<Integer> getChildList() {
+		return childList;
+
+	}
+	
+	public int getTotalChild() {
+		return childList.size();
 	}
 	
 	

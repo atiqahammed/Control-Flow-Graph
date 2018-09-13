@@ -28,6 +28,8 @@ public class Analyser {
 
 		ArrayList<Node> graph = new ArrayList<>();
 		Stack<Node> nodeStack = new Stack<>();
+		Stack<Node> parentOfIf = new Stack<>();
+
 		Stack<Node> parentOfEndParenthasis = new Stack<>();
 
 		Node currentNode = new Node(nodeNumber);
@@ -36,52 +38,124 @@ public class Analyser {
 		nodeStack.push(currentNode);
 
 		while (i < method.size()) {
-			// System.out.println(method.get(i).getLineNumber() +" "+
-			// method.get(i).getStatement());
-			
-			
-			if(isIfStateent(method.get(i).getStatement())) {
-				//System.out.println("paichi if statement");
-				
-				Node previousNode = nodeStack.pop();
-				
-				
-				currentNode = new Node(nodeNumber);
-				nodeNumber++;
-				
-				
-				currentNode.setParentNode(previousNode);
-				previousNode.addChild(currentNode.getNodeNumber()); 
-				
-				graph.add(currentNode);
-				
-				if(paranthesisFound(method.get(i).getStatement())) {
-					
-				} else if(paranthesisFound(method.get(i + 1).getStatement())) {
-					
-				} else {
-					System.out.println("paichi");
-				}
-				
-				
-				
-				
-				
-			}
-			
+			//System.out.println(method.get(i).getLineNumber() + " " + method.get(i).getStatement());
 
-			if (isForloopStarting(method.get(i).getStatement())) {
+			if (isElseStatement(method.get(i).getStatement())) {
+				// System.out.println("paichi");
+
+				parentOfIf.add(currentNode.getParent());
+
+				Node elseNode = new Node(nodeNumber);
+				nodeNumber++;
+
+				graph.add(elseNode);
+
+				Node parentOfifNode = parentOfIf.pop();
+				parentOfifNode.addChild(elseNode.getNodeNumber());
+				elseNode.setParentNode(parentOfifNode);
+				elseNode.addStatement(method.get(i));
+
+				if (paranthesisFound(method.get(i).getStatement())) {
+
+				} else if (paranthesisFound(method.get(i + 1).getStatement())) {
+
+				} else {
+					
+					i++;
+					elseNode.addStatement(method.get(i));
+					i++;
+					
+					Node nextNode = new Node(nodeNumber);
+					nodeNumber++;
+					
+					
+					
+					
+					ArrayList<Integer> childList = parentOfifNode.getChildList();
+					
+					for(int index1 = 0; index1<childList.size(); index1++) {
+						for(int index2 = 0; index2<graph.size(); index2++) {
+							if(graph.get(index2).getNodeNumber()==childList.get(index1)) {
+								graph.get(index2).addChild(nextNode.getNodeNumber());
+							}
+						}
+					}
+					
+					graph.add(nextNode);
+					nextNode.setParentNode(elseNode);
+					
+					nodeStack.add(nextNode);
+					
+					//System.out.println(method.get(i).getStatement());
+					//System.out.println("paichi");syso
+
+				}
+
+			}
+
+			if (isIfStateent(method.get(i).getStatement())) {
+				// System.out.println("paichi if statement");
+
+				Node previousNode = nodeStack.pop();
+
+				currentNode = new Node(nodeNumber);
+				currentNode.isIf = true;
+				nodeNumber++;
+
+				currentNode.setParentNode(previousNode);
+				previousNode.addChild(currentNode.getNodeNumber());
+
+				graph.add(currentNode);
+
+				if (paranthesisFound(method.get(i).getStatement())) {
+
+				} else if (paranthesisFound(method.get(i + 1).getStatement())) {
+
+				} else {
+					// System.out.println("paichi");
+					currentNode.addStatement(method.get(i));
+					i++;
+
+					// System.out.println(method.get(i+1).getStatement());
+
+					if (isElseStatement(method.get(i + 1).getStatement())
+							|| isElseIfStatement(method.get(i + 1).getStatement())) {
+
+						currentNode.addStatement(method.get(i));
+
+						// System.out.println("paichi");
+						// System.out.println(method.get(i).getStatement());
+						// currentNode.addStatement(method.get(i));
+
+					} else {
+
+						currentNode.addStatement(method.get(i));
+						i++;
+
+						Node newNode = new Node(nodeNumber);
+						nodeNumber++;
+						currentNode.addChild(newNode.getNodeNumber());
+						currentNode.getParent().addChild(newNode.getNodeNumber());
+						graph.add(newNode);
+						nodeStack.push(newNode);
+
+					}
+
+				}
+
+			}
+
+			else if (isForloopStarting(method.get(i).getStatement())) {
 				Node previousNode = nodeStack.pop();
 				previousNode.addChild(nodeNumber);
 				currentNode = new Node(nodeNumber);
 				nodeNumber++;
-				
+
 				currentNode.setParentNode(previousNode);
 				currentNode.addStatement(method.get(i));
 
 				graph.add(currentNode);
-				
-				
+
 				if (paranthesisFound(method.get(i).getStatement())) {
 
 					Node newNode = new Node(nodeNumber);
@@ -95,10 +169,11 @@ public class Analyser {
 					parentOfEndParenthasis.push(currentNode);
 
 				} else if (paranthesisFound(method.get(i + 1).getStatement())) {
-					//System.out.println("paichi + 2s");
-					//System.out.println(method.get(i).getLineNumber() + "  " + method.get(i).getStatement());
+					// System.out.println("paichi + 2s");
+					// System.out.println(method.get(i).getLineNumber() + " " +
+					// method.get(i).getStatement());
 					i++;
-					
+
 					Node newNode = new Node(nodeNumber);
 					nodeNumber++;
 					graph.add(newNode);
@@ -108,7 +183,7 @@ public class Analyser {
 					currentNode.addChild(newNode.getNodeNumber());
 					currentNode.isLoop = true;
 					parentOfEndParenthasis.push(currentNode);
-				
+
 				} else {
 
 					currentNode.addChild(nodeNumber);
@@ -134,7 +209,7 @@ public class Analyser {
 
 			}
 
-			else if (endParanthesisFound(method.get(i).getStatement()) && !parentOfEndParenthasis.isEmpty() ) {
+			else if (endParanthesisFound(method.get(i).getStatement()) && !parentOfEndParenthasis.isEmpty()) {
 
 				// System.out.println("end of bracket");
 
@@ -177,34 +252,43 @@ public class Analyser {
 			graph.get(index).printChild();
 			graph.get(index).printStatement();
 		}
-		
-		
+
 		System.out.println();
 		System.out.println("---------------------------------------------------------------");
 		System.out.print("");
 
-		
-		for(int index1 = 0; index1 < graph.size(); index1++) {
+		System.out.print("\t  node\t\t");
+		for (int index = 0; index < graph.size(); index++)
+			System.out.print(index + 1 + "\t");
+
+		System.out.println();
+
+		for (int index1 = 0; index1 < graph.size(); index1++) {
 			Node node = graph.get(index1);
-			
-			System.out.print("Node Number:  " + node.getNodeNumber() +"\t\t");
-			for(int index2 = 0; index2 < graph.size(); index2++) {
-				if(node.isChild(index2+1)) {
+
+			System.out.print("Node Number:  " + node.getNodeNumber() + "\t\t");
+			for (int index2 = 0; index2 < graph.size(); index2++) {
+				if (node.isChild(index2 + 1)) {
 					System.out.print("1\t");
 				} else {
 					System.out.print("0\t");
 				}
 			}
-			
+
 			System.out.println();
 		}
-		
-		
-		
+
+	}
+
+	private boolean isElseIfStatement(String statement) {
+		return patternMatcher.isMatch("^(\\s)*else if", statement);
+	}
+
+	private boolean isElseStatement(String statement) {
+		return patternMatcher.isMatch("^(\\s)*else", statement);
 	}
 
 	private boolean isIfStateent(String statement) {
-		
 		return patternMatcher.isMatch("^(\\s)*if", statement);
 	}
 
