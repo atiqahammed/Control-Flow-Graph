@@ -38,7 +38,8 @@ public class Analyser {
 		nodeStack.push(currentNode);
 
 		while (i < method.size()) {
-			//System.out.println(method.get(i).getLineNumber() + " " + method.get(i).getStatement());
+			// System.out.println(method.get(i).getLineNumber() + " " +
+			// method.get(i).getStatement());
 
 			if (isElseStatement(method.get(i).getStatement())) {
 				// System.out.println("paichi");
@@ -56,38 +57,46 @@ public class Analyser {
 				elseNode.addStatement(method.get(i));
 
 				if (paranthesisFound(method.get(i).getStatement())) {
+					// System.out.println("Paichi");
+					elseNode.isElse = true;
+
+					parentOfEndParenthasis.push(elseNode);
+					nodeStack.push(elseNode);
+					i++;
 
 				} else if (paranthesisFound(method.get(i + 1).getStatement())) {
+					//System.out.println("paichi");
+					i++;
+					elseNode.addStatement(method.get(i));
+					elseNode.isElse = true;
+
+					parentOfEndParenthasis.push(elseNode);
+					nodeStack.push(elseNode);
+					i++;
 
 				} else {
-					
+
 					i++;
 					elseNode.addStatement(method.get(i));
 					i++;
-					
+
 					Node nextNode = new Node(nodeNumber);
 					nodeNumber++;
-					
-					
-					
-					
+
 					ArrayList<Integer> childList = parentOfifNode.getChildList();
-					
-					for(int index1 = 0; index1<childList.size(); index1++) {
-						for(int index2 = 0; index2<graph.size(); index2++) {
-							if(graph.get(index2).getNodeNumber()==childList.get(index1)) {
+
+					for (int index1 = 0; index1 < childList.size(); index1++) {
+						for (int index2 = 0; index2 < graph.size(); index2++) {
+							if (graph.get(index2).getNodeNumber() == childList.get(index1)) {
 								graph.get(index2).addChild(nextNode.getNodeNumber());
 							}
 						}
 					}
-					
+
 					graph.add(nextNode);
 					nextNode.setParentNode(elseNode);
-					
+
 					nodeStack.add(nextNode);
-					
-					//System.out.println(method.get(i).getStatement());
-					//System.out.println("paichi");syso
 
 				}
 
@@ -228,6 +237,30 @@ public class Analyser {
 					nodeStack.push(newNode);
 					previousNode.addChild(startOfParanthesis.getNodeNumber());
 
+				}
+				if (startOfParanthesis.isElse) {
+					startOfParanthesis.addStatement(method.get(i));
+					Node nextNode = new Node(nodeNumber);
+					nodeNumber++;
+
+					Node parentOfifNode = startOfParanthesis.getParent();
+					
+					ArrayList<Integer> childList = parentOfifNode.getChildList();
+
+					for (int index1 = 0; index1 < childList.size(); index1++) {
+						for (int index2 = 0; index2 < graph.size(); index2++) {
+							if (graph.get(index2).getNodeNumber() == childList.get(index1)) {
+								graph.get(index2).addChild(nextNode.getNodeNumber());
+							}
+						}
+					}
+
+					graph.add(nextNode);
+					nextNode.setParentNode(startOfParanthesis);
+
+					nodeStack.add(nextNode);
+					
+					
 				}
 
 				// previousNode.addChild(st);

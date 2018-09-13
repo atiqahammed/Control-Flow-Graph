@@ -9,8 +9,10 @@ class ForLoopExample {
         if (testscore >= 90) 
             grade = 'A';
         else 
+        {
         	grade = 'b';
-        
+        	a= m+lk
+        }
         
         
         System.out.println("Grade = " + grade);
@@ -25,9 +27,9 @@ class ForLoopExample {
             grade = 'C';
         else if (testscore >= 60) 
             grade = 'D';
-        else 
+        else {
             grade = 'F';
-    	
+        }
     	
     	List<String> matches = new ArrayList<String>();
         Matcher m = Pattern.compile(p).matcher(s);
