@@ -13,6 +13,7 @@ public class Node {
 	public boolean isLoop = false;
 	public boolean isIf = false;
 	public boolean isElse = false;
+	public boolean isElseIf = true;
 	public boolean parentOfIf = false;
 	
 	public void setParentNode(Node parent) {

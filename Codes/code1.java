@@ -8,9 +8,9 @@ class ForLoopExample {
 
         if (testscore >= 90) 
             grade = 'A';
-        else if
+        else if {
         	grade = 'b';
-        
+        }
         
         
         

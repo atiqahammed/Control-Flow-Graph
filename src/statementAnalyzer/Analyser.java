@@ -43,7 +43,7 @@ public class Analyser {
 			
 			
 			if(isElseIfStatement(method.get(i).getStatement())) {
-				System.out.println("paichi else if");
+				//System.out.println("paichi else if");
 				
 				Node elseIfNode = new Node(nodeNumber);
 				nodeNumber++;
@@ -56,30 +56,22 @@ public class Analyser {
 				
 				
 				if (paranthesisFound(method.get(i).getStatement())) {
-					// System.out.println("Paichi");
-					/*elseNode.isElse = true;
+					 System.out.println("Paichi maama");
+					elseIfNode.isElseIf = true;
 
-					parentOfEndParenthasis.push(elseNode);
-					nodeStack.push(elseNode);
-					i++;*/
+					parentOfEndParenthasis.push(elseIfNode);
+					nodeStack.push(elseIfNode);
+					i++;
 
 				} else if (paranthesisFound(method.get(i + 1).getStatement())) {
-					//System.out.println("paichi");
-					/*i++;
-					elseNode.addStatement(method.get(i));
-					elseNode.isElse = true;
-
-					parentOfEndParenthasis.push(elseNode);
-					nodeStack.push(elseNode);
-					i++;*/
+					System.out.println();
 
 				} else {
 					i++;
 					elseIfNode.addStatement(method.get(i));
+					
 					//i++;
-					
 					//System.out.println(parentOfIf.size());
-					
 					//System.out.println(method.get(i).getStatement());
 					
 					if(isElseStatement(method.get(i+1).getStatement()) || 
@@ -339,6 +331,10 @@ public class Analyser {
 					
 					
 				}
+				
+				if (startOfParanthesis.isElseIf) { 
+					//System.out.println("khela hbe");
+				}
 
 				// previousNode.addChild(st);
 
@@ -367,16 +363,20 @@ public class Analyser {
 		System.out.println("---------------------------------------------------------------");
 		System.out.print("");
 
-		System.out.print("\t  node\t\t");
+		System.out.print("\t\t\t\t");
 		for (int index = 0; index < graph.size(); index++)
 			System.out.print(index + 1 + "\t");
-
+		System.out.println();
+		
+		System.out.print("\t\t\t\t");
+		for (int index = 0; index < graph.size(); index++)
+			System.out.print( "-\t");
 		System.out.println();
 
 		for (int index1 = 0; index1 < graph.size(); index1++) {
 			Node node = graph.get(index1);
 
-			System.out.print("Node Number:  " + node.getNodeNumber() + "\t\t");
+			System.out.print("Node Number:  " + node.getNodeNumber() + "\t|\t\t");
 			for (int index2 = 0; index2 < graph.size(); index2++) {
 				if (node.isChild(index2 + 1)) {
 					System.out.print("1\t");
