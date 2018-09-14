@@ -40,11 +40,83 @@ public class Analyser {
 		while (i < method.size()) {
 			// System.out.println(method.get(i).getLineNumber() + " " +
 			// method.get(i).getStatement());
+			
+			
+			if(isElseIfStatement(method.get(i).getStatement())) {
+				System.out.println("paichi else if");
+				
+				Node elseIfNode = new Node(nodeNumber);
+				nodeNumber++;
+				graph.add(elseIfNode);
+				
+				Node parentOfifNode = parentOfIf.pop();
+				parentOfifNode.addChild(elseIfNode.getNodeNumber());
+				elseIfNode.setParentNode(parentOfifNode);
+				elseIfNode.addStatement(method.get(i));
+				
+				
+				if (paranthesisFound(method.get(i).getStatement())) {
+					// System.out.println("Paichi");
+					/*elseNode.isElse = true;
 
-			if (isElseStatement(method.get(i).getStatement())) {
-				// System.out.println("paichi");
+					parentOfEndParenthasis.push(elseNode);
+					nodeStack.push(elseNode);
+					i++;*/
 
-				parentOfIf.add(currentNode.getParent());
+				} else if (paranthesisFound(method.get(i + 1).getStatement())) {
+					//System.out.println("paichi");
+					/*i++;
+					elseNode.addStatement(method.get(i));
+					elseNode.isElse = true;
+
+					parentOfEndParenthasis.push(elseNode);
+					nodeStack.push(elseNode);
+					i++;*/
+
+				} else {
+					i++;
+					elseIfNode.addStatement(method.get(i));
+					//i++;
+					
+					//System.out.println(parentOfIf.size());
+					
+					//System.out.println(method.get(i).getStatement());
+					
+					if(isElseStatement(method.get(i+1).getStatement()) || 
+							isElseIfStatement(method.get(i+1).getStatement())) {
+						
+						parentOfIf.add(parentOfifNode);
+						
+						
+					} else {
+						
+						Node nextNode = new Node(nodeNumber);
+						nodeNumber++;
+						graph.add(nextNode);
+						
+						ArrayList<Integer> childList = parentOfifNode.getChildList();
+
+						for (int index1 = 0; index1 < childList.size(); index1++) {
+							for (int index2 = 0; index2 < graph.size(); index2++) {
+								if (graph.get(index2).getNodeNumber() == childList.get(index1)) {
+									graph.get(index2).addChild(nextNode.getNodeNumber());
+								}
+							}
+						}
+						
+						parentOfifNode.addChild(nextNode.getNodeNumber());
+						nodeStack.add(nextNode);
+					}
+					
+					
+					
+				}
+				
+				
+				
+			}
+
+			else if (isElseStatement(method.get(i).getStatement())) {				
 
 				Node elseNode = new Node(nodeNumber);
 				nodeNumber++;
@@ -97,12 +169,15 @@ public class Analyser {
 					nextNode.setParentNode(elseNode);
 
 					nodeStack.add(nextNode);
+					nextNode.addStatement(method.get(i));
+					//System.out.println(" " + method.get(i).getStatement());
+					//System.out.println("over here");
 
 				}
 
 			}
 
-			if (isIfStateent(method.get(i).getStatement())) {
+			else if (isIfStateent(method.get(i).getStatement())) {
 				// System.out.println("paichi if statement");
 
 				Node previousNode = nodeStack.pop();
@@ -131,7 +206,9 @@ public class Analyser {
 							|| isElseIfStatement(method.get(i + 1).getStatement())) {
 
 						currentNode.addStatement(method.get(i));
-
+						parentOfIf.add(currentNode.getParent());
+						
+						
 						// System.out.println("paichi");
 						// System.out.println(method.get(i).getStatement());
 						// currentNode.addStatement(method.get(i));

@@ -8,11 +8,10 @@ class ForLoopExample {
 
         if (testscore >= 90) 
             grade = 'A';
-        else 
-        {
+        else if
         	grade = 'b';
-        	a= m+lk
-        }
+        
+        
         
         
         System.out.println("Grade = " + grade);
