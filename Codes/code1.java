@@ -7,11 +7,16 @@ class ForLoopExample {
         char grade;
 
         if (testscore >= 90) 
-            grade = 'A';
-        else if 
         {
-        	grade = 'b';
+            grade = 'A';
+            hjkjhkk
         }
+        
+        if(soso) {
+        	sdfsd
+        }
+        
+        
         
         
         

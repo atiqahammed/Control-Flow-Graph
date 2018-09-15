@@ -113,7 +113,6 @@ public class Analyser {
 				elseNode.addStatement(method.get(i));
 
 				if (paranthesisFound(method.get(i).getStatement())) {
-					// System.out.println("Paichi");
 					elseNode.isElse = true;
 
 					parentOfEndParenthasis.push(elseNode);
@@ -176,27 +175,35 @@ public class Analyser {
 				graph.add(currentNode);
 
 				if (paranthesisFound(method.get(i).getStatement())) {
+					
+					currentNode.addStatement(method.get(i));
+					parentOfIf.push(previousNode);
+					parentOfEndParenthasis.push(currentNode);
+					nodeStack.push(currentNode);
+					
+					//System.out.println("paichi");
 
 				} else if (paranthesisFound(method.get(i + 1).getStatement())) {
 					
+					currentNode.addStatement(method.get(i));
+					i++;
+					currentNode.addStatement(method.get(i));
+					
+					parentOfIf.push(previousNode);
+					parentOfEndParenthasis.push(currentNode);
+					nodeStack.push(currentNode);
 					//System.out.println("got it");
 
 				} else {
-					// System.out.println("paichi");
+					
 					currentNode.addStatement(method.get(i));
 					i++;
-
-					// System.out.println(method.get(i+1).getStatement());
 
 					if (isElseStatement(method.get(i + 1).getStatement())
 							|| isElseIfStatement(method.get(i + 1).getStatement())) {
 
 						currentNode.addStatement(method.get(i));
 						parentOfIf.add(currentNode.getParent());
-
-						// System.out.println("paichi");
-						// System.out.println(method.get(i).getStatement());
-						// currentNode.addStatement(method.get(i));
 
 					} else {
 
@@ -323,18 +330,30 @@ public class Analyser {
 					nodeStack.add(nextNode);
 
 				}
+				
+				if(startOfParanthesis.isIf) {
+					if (isElseStatement(method.get(i + 1).getStatement())
+							|| isElseIfStatement(method.get(i + 1).getStatement())) {
+						
+						//System.out.println("he he he");
+						//startOfParanthesis.addStatement(method.get(i));
+						//parentOfIf.push(startOfParanthesis.getParent());
+						//System.out.println(parentOfIf.size());
+						
+					} else {
+						//System.out.println("nai");
+						//System.out.println("hu ha ha h a");
+						
+					}
+				}
 
 
 				if (startOfParanthesis.isElseIf) {
-					//System.out.println("khela hbe");
-
-					//System.out.println(method.get(i).getStatement());
 
 					if (isElseStatement(method.get(i + 1).getStatement())
 							|| isElseIfStatement(method.get(i + 1).getStatement())) {
 						startOfParanthesis.addStatement(method.get(i));
 						parentOfIf.push(startOfParanthesis.getParent());
-						// parentOfEndParenthasis.push(startOfParanthesis);
 
 					} else {
 						startOfParanthesis.addStatement(method.get(i));
