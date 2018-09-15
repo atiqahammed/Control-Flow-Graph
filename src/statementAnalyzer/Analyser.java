@@ -38,8 +38,8 @@ public class Analyser {
 		nodeStack.push(currentNode);
 
 		while (i < method.size()) {
-			 System.out.println(method.get(i).getLineNumber() + " "
-			 +method.get(i).getStatement());
+			// System.out.println(method.get(i).getLineNumber() + " "
+			// +method.get(i).getStatement());
 
 			if (isElseIfStatement(method.get(i).getStatement())) {
 				
@@ -223,7 +223,7 @@ public class Analyser {
 
 			}
 
-			else if (isForloopStarting(method.get(i).getStatement())) {
+			else if (isForloopStarting(method.get(i).getStatement())|| isWhileloopStarting(method.get(i).getStatement())) {
 				Node previousNode = nodeStack.pop();
 				previousNode.addChild(nodeNumber);
 				currentNode = new Node(nodeNumber);
@@ -340,19 +340,10 @@ public class Analyser {
 					if (isElseStatement(method.get(i + 1).getStatement())
 							|| isElseIfStatement(method.get(i + 1).getStatement())) {
 						
-						
-						
-						//System.out.println("he he he");
-						//startOfParanthesis.addStatement(method.get(i));
-						//parentOfIf.push(startOfParanthesis.getParent());
-						//System.out.println(parentOfIf.size());
+						startOfParanthesis.addStatement(method.get(i));
 						
 					} else {
-						//System.out.println("nai");
-						//System.out.println("hu ha ha h a");
-						System.out.println("----");
-						//for(int i = 0; i < parentOfIf.)
-						//parentOfifNode.printStatement();
+						
 						Node nextNode = new Node(nodeNumber);
 						nodeNumber++;
 						
@@ -409,13 +400,13 @@ public class Analyser {
 			}
 
 			else {
-				System.out.println("jo ");
-				System.out.println(method.get(i).getStatement());
-				System.out.println(nodeStack.size());
+				//System.out.println("jo ");
+				//System.out.println(method.get(i).getStatement());
+				//System.out.println(nodeStack.size());
 				if (nodeStack.isEmpty())
 					break;
 
-				System.out.println("pppp");
+				//System.out.println("pppp");
 				Node tempNode = nodeStack.pop();
 				tempNode.addStatement(method.get(i));
 				nodeStack.push(tempNode);
@@ -460,6 +451,10 @@ public class Analyser {
 			System.out.println();
 		}
 
+	}
+
+	private boolean isWhileloopStarting(String statement) {
+		return patternMatcher.isMatch("^(\\s)*while", statement);
 	}
 
 	private boolean isElseIfStatement(String statement) {

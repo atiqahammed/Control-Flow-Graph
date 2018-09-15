@@ -6,14 +6,10 @@ class ForLoopExample {
         int testscore = 76;
         char grade;
 
-        if(b = c) {
-        
-        	v = b =c;
-	       
-	        
-	        v = s+v;
-        
+        while() {
+        	something
         }
+        
         
         System.out.println("Grade = " + grade);
     }
