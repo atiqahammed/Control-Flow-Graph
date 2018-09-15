@@ -42,7 +42,7 @@ public class Analyser {
 			// +method.get(i).getStatement());
 
 			if (isElseIfStatement(method.get(i).getStatement())) {
-				// System.out.println("paichi else if");
+				
 
 				Node elseIfNode = new Node(nodeNumber);
 				nodeNumber++;
@@ -54,25 +54,22 @@ public class Analyser {
 				elseIfNode.addStatement(method.get(i));
 
 				if (paranthesisFound(method.get(i).getStatement())) {
-					// System.out.println("Paichi maama");
+					
 					elseIfNode.isElseIf = true;
-
-					// System.out.println(method.get(i).getStatement());
 
 					parentOfEndParenthasis.push(elseIfNode);
 					nodeStack.push(elseIfNode);
-					// i++;
 
 				} else if (paranthesisFound(method.get(i + 1).getStatement())) {
-					System.out.println();
-
+					elseIfNode.isElseIf = true;
+					i++;
+					elseIfNode.addStatement(method.get(i));
+					parentOfEndParenthasis.push(elseIfNode);
+					nodeStack.push(elseIfNode);
+					
 				} else {
 					i++;
 					elseIfNode.addStatement(method.get(i));
-
-					// i++;
-					// System.out.println(parentOfIf.size());
-					// System.out.println(method.get(i).getStatement());
 
 					if (isElseStatement(method.get(i + 1).getStatement())
 							|| isElseIfStatement(method.get(i + 1).getStatement())) {
@@ -181,6 +178,8 @@ public class Analyser {
 				if (paranthesisFound(method.get(i).getStatement())) {
 
 				} else if (paranthesisFound(method.get(i + 1).getStatement())) {
+					
+					//System.out.println("got it");
 
 				} else {
 					// System.out.println("paichi");
@@ -325,11 +324,11 @@ public class Analyser {
 
 				}
 
-				//////////// working on
-				if (startOfParanthesis.isElseIf) {
-					System.out.println("khela hbe");
 
-					System.out.println(method.get(i).getStatement());
+				if (startOfParanthesis.isElseIf) {
+					//System.out.println("khela hbe");
+
+					//System.out.println(method.get(i).getStatement());
 
 					if (isElseStatement(method.get(i + 1).getStatement())
 							|| isElseIfStatement(method.get(i + 1).getStatement())) {
