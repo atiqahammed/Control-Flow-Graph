@@ -38,30 +38,30 @@ public class Analyser {
 		nodeStack.push(currentNode);
 
 		while (i < method.size()) {
-			// System.out.println(method.get(i).getLineNumber() + " " +
-			// method.get(i).getStatement());
-			
-			
-			if(isElseIfStatement(method.get(i).getStatement())) {
-				//System.out.println("paichi else if");
-				
+			// System.out.println(method.get(i).getLineNumber() + " "
+			// +method.get(i).getStatement());
+
+			if (isElseIfStatement(method.get(i).getStatement())) {
+				// System.out.println("paichi else if");
+
 				Node elseIfNode = new Node(nodeNumber);
 				nodeNumber++;
 				graph.add(elseIfNode);
-				
+
 				Node parentOfifNode = parentOfIf.pop();
 				parentOfifNode.addChild(elseIfNode.getNodeNumber());
 				elseIfNode.setParentNode(parentOfifNode);
 				elseIfNode.addStatement(method.get(i));
-				
-				
+
 				if (paranthesisFound(method.get(i).getStatement())) {
-					 System.out.println("Paichi maama");
+					// System.out.println("Paichi maama");
 					elseIfNode.isElseIf = true;
+
+					// System.out.println(method.get(i).getStatement());
 
 					parentOfEndParenthasis.push(elseIfNode);
 					nodeStack.push(elseIfNode);
-					i++;
+					// i++;
 
 				} else if (paranthesisFound(method.get(i + 1).getStatement())) {
 					System.out.println();
@@ -69,23 +69,22 @@ public class Analyser {
 				} else {
 					i++;
 					elseIfNode.addStatement(method.get(i));
-					
-					//i++;
-					//System.out.println(parentOfIf.size());
-					//System.out.println(method.get(i).getStatement());
-					
-					if(isElseStatement(method.get(i+1).getStatement()) || 
-							isElseIfStatement(method.get(i+1).getStatement())) {
-						
+
+					// i++;
+					// System.out.println(parentOfIf.size());
+					// System.out.println(method.get(i).getStatement());
+
+					if (isElseStatement(method.get(i + 1).getStatement())
+							|| isElseIfStatement(method.get(i + 1).getStatement())) {
+
 						parentOfIf.add(parentOfifNode);
-						
-						
+
 					} else {
-						
+
 						Node nextNode = new Node(nodeNumber);
 						nodeNumber++;
 						graph.add(nextNode);
-						
+
 						ArrayList<Integer> childList = parentOfifNode.getChildList();
 
 						for (int index1 = 0; index1 < childList.size(); index1++) {
@@ -95,20 +94,16 @@ public class Analyser {
 								}
 							}
 						}
-						
+
 						parentOfifNode.addChild(nextNode.getNodeNumber());
 						nodeStack.add(nextNode);
 					}
-					
-					
-					
+
 				}
-				
-				
-				
+
 			}
 
-			else if (isElseStatement(method.get(i).getStatement())) {				
+			else if (isElseStatement(method.get(i).getStatement())) {
 
 				Node elseNode = new Node(nodeNumber);
 				nodeNumber++;
@@ -129,7 +124,7 @@ public class Analyser {
 					i++;
 
 				} else if (paranthesisFound(method.get(i + 1).getStatement())) {
-					//System.out.println("paichi");
+					// System.out.println("paichi");
 					i++;
 					elseNode.addStatement(method.get(i));
 					elseNode.isElse = true;
@@ -162,8 +157,8 @@ public class Analyser {
 
 					nodeStack.add(nextNode);
 					nextNode.addStatement(method.get(i));
-					//System.out.println(" " + method.get(i).getStatement());
-					//System.out.println("over here");
+					// System.out.println(" " + method.get(i).getStatement());
+					// System.out.println("over here");
 
 				}
 
@@ -199,8 +194,7 @@ public class Analyser {
 
 						currentNode.addStatement(method.get(i));
 						parentOfIf.add(currentNode.getParent());
-						
-						
+
 						// System.out.println("paichi");
 						// System.out.println(method.get(i).getStatement());
 						// currentNode.addStatement(method.get(i));
@@ -313,7 +307,7 @@ public class Analyser {
 					nodeNumber++;
 
 					Node parentOfifNode = startOfParanthesis.getParent();
-					
+
 					ArrayList<Integer> childList = parentOfifNode.getChildList();
 
 					for (int index1 = 0; index1 < childList.size(); index1++) {
@@ -328,15 +322,51 @@ public class Analyser {
 					nextNode.setParentNode(startOfParanthesis);
 
 					nodeStack.add(nextNode);
-					
-					
-				}
-				
-				if (startOfParanthesis.isElseIf) { 
-					//System.out.println("khela hbe");
+
 				}
 
-				// previousNode.addChild(st);
+				//////////// working on
+				if (startOfParanthesis.isElseIf) {
+					System.out.println("khela hbe");
+
+					System.out.println(method.get(i).getStatement());
+
+					if (isElseStatement(method.get(i + 1).getStatement())
+							|| isElseIfStatement(method.get(i + 1).getStatement())) {
+						startOfParanthesis.addStatement(method.get(i));
+						parentOfIf.push(startOfParanthesis.getParent());
+						// parentOfEndParenthasis.push(startOfParanthesis);
+
+					} else {
+						startOfParanthesis.addStatement(method.get(i));
+						
+						Node nextNode = new Node(nodeNumber);
+						nodeNumber++;
+
+						Node parentOfifNode = startOfParanthesis.getParent();
+
+						ArrayList<Integer> childList = parentOfifNode.getChildList();
+
+						for (int index1 = 0; index1 < childList.size(); index1++) {
+							for (int index2 = 0; index2 < graph.size(); index2++) {
+								if (graph.get(index2).getNodeNumber() == childList.get(index1)) {
+									graph.get(index2).addChild(nextNode.getNodeNumber());
+								}
+							}
+						}
+
+						graph.add(nextNode);
+						nextNode.setParentNode(startOfParanthesis);
+						
+						
+						nodeStack.add(nextNode);
+						
+						
+						startOfParanthesis.getParent().addChild(nextNode.getNodeNumber());
+						
+					}
+
+				}
 
 			}
 
@@ -367,10 +397,10 @@ public class Analyser {
 		for (int index = 0; index < graph.size(); index++)
 			System.out.print(index + 1 + "\t");
 		System.out.println();
-		
+
 		System.out.print("\t\t\t\t");
 		for (int index = 0; index < graph.size(); index++)
-			System.out.print( "-\t");
+			System.out.print("-\t");
 		System.out.println();
 
 		for (int index1 = 0; index1 < graph.size(); index1++) {
