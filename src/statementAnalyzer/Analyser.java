@@ -117,7 +117,7 @@ public class Analyser {
 
 					parentOfEndParenthasis.push(elseNode);
 					nodeStack.push(elseNode);
-					i++;
+					//i++;
 
 				} else if (paranthesisFound(method.get(i + 1).getStatement())) {
 					// System.out.println("paichi");
@@ -127,7 +127,7 @@ public class Analyser {
 
 					parentOfEndParenthasis.push(elseNode);
 					nodeStack.push(elseNode);
-					i++;
+					//i++;
 
 				} else {
 
@@ -307,8 +307,9 @@ public class Analyser {
 					previousNode.addChild(startOfParanthesis.getNodeNumber());
 
 				}
-				if (startOfParanthesis.isElse) {
-					startOfParanthesis.addStatement(method.get(i));
+				
+				else if (startOfParanthesis.isElse) {
+					//startOfParanthesis.addStatement(method.get(i));
 					Node nextNode = new Node(nodeNumber);
 					nodeNumber++;
 
@@ -326,12 +327,13 @@ public class Analyser {
 
 					graph.add(nextNode);
 					nextNode.setParentNode(startOfParanthesis);
-
+					System.out.println("analyzing  " + nextNode.getNodeNumber());
+					startOfParanthesis.addStatement(method.get(i));
 					nodeStack.add(nextNode);
 
 				}
 				
-				if(startOfParanthesis.isIf) {
+				else if(startOfParanthesis.isIf) {
 					if (isElseStatement(method.get(i + 1).getStatement())
 							|| isElseIfStatement(method.get(i + 1).getStatement())) {
 						
@@ -348,7 +350,7 @@ public class Analyser {
 				}
 
 
-				if (startOfParanthesis.isElseIf) {
+				else if (startOfParanthesis.isElseIf) {
 
 					if (isElseStatement(method.get(i + 1).getStatement())
 							|| isElseIfStatement(method.get(i + 1).getStatement())) {
@@ -372,7 +374,7 @@ public class Analyser {
 								}
 							}
 						}
-
+						
 						graph.add(nextNode);
 						nextNode.setParentNode(startOfParanthesis);
 						

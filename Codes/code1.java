@@ -7,14 +7,15 @@ class ForLoopExample {
         char grade;
 
         if (testscore >= 90) 
-        {
             grade = 'A';
-            hjkjhkk
-        }
+            
         
-        if(soso) {
-        	sdfsd
-        }
+        else if (testscore >= 80) 
+            grade = 'B';
+        
+        
+        
+        
         
         
         
@@ -26,15 +27,7 @@ class ForLoopExample {
 	
     public static void main(String args[]){
     	
-    	else if (testscore >= 80) 
-            grade = 'B';
-        else if (testscore >= 70) 
-            grade = 'C';
-        else if (testscore >= 60) 
-            grade = 'D';
-        else {
-            grade = 'F';
-        }
+    	
     	
     	List<String> matches = new ArrayList<String>();
         Matcher m = Pattern.compile(p).matcher(s);
