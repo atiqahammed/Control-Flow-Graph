@@ -38,8 +38,8 @@ public class Analyser {
 		nodeStack.push(currentNode);
 
 		while (i < method.size()) {
-			// System.out.println(method.get(i).getLineNumber() + " "
-			// +method.get(i).getStatement());
+			 System.out.println(method.get(i).getLineNumber() + " "
+			 +method.get(i).getStatement());
 
 			if (isElseIfStatement(method.get(i).getStatement())) {
 				
@@ -327,15 +327,20 @@ public class Analyser {
 
 					graph.add(nextNode);
 					nextNode.setParentNode(startOfParanthesis);
-					System.out.println("analyzing  " + nextNode.getNodeNumber());
+					//System.out.println("analyzing  " + nextNode.getNodeNumber());
 					startOfParanthesis.addStatement(method.get(i));
 					nodeStack.add(nextNode);
 
 				}
 				
 				else if(startOfParanthesis.isIf) {
+					
+					Node parentOfifNode = startOfParanthesis.getParent();
+					
 					if (isElseStatement(method.get(i + 1).getStatement())
 							|| isElseIfStatement(method.get(i + 1).getStatement())) {
+						
+						
 						
 						//System.out.println("he he he");
 						//startOfParanthesis.addStatement(method.get(i));
@@ -345,6 +350,19 @@ public class Analyser {
 					} else {
 						//System.out.println("nai");
 						//System.out.println("hu ha ha h a");
+						System.out.println("----");
+						//for(int i = 0; i < parentOfIf.)
+						//parentOfifNode.printStatement();
+						Node nextNode = new Node(nodeNumber);
+						nodeNumber++;
+						
+						parentOfifNode.addChild(nextNode.getNodeNumber());
+						startOfParanthesis.addChild(nextNode.getNodeNumber());
+						nextNode.setParentNode(startOfParanthesis);
+						startOfParanthesis.addStatement(method.get(i));
+						
+						nodeStack.add(nextNode);
+						graph.add(nextNode);
 						
 					}
 				}
@@ -391,9 +409,13 @@ public class Analyser {
 			}
 
 			else {
+				System.out.println("jo ");
+				System.out.println(method.get(i).getStatement());
+				System.out.println(nodeStack.size());
 				if (nodeStack.isEmpty())
 					break;
 
+				System.out.println("pppp");
 				Node tempNode = nodeStack.pop();
 				tempNode.addStatement(method.get(i));
 				nodeStack.push(tempNode);

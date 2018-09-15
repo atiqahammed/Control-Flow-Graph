@@ -6,20 +6,14 @@ class ForLoopExample {
         int testscore = 76;
         char grade;
 
-        if (testscore >= 90) 
-            grade = 'A';
-            
+        if(b = c) {
         
-        else if (testscore >= 80) 
-            grade = 'B';
+        	v = b =c;
+	       
+	        
+	        v = s+v;
         
-        
-        
-        
-        
-        
-        
-        
+        }
         
         System.out.println("Grade = " + grade);
     }
