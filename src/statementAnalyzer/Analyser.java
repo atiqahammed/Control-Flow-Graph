@@ -153,15 +153,13 @@ public class Analyser {
 
 					nodeStack.add(nextNode);
 					nextNode.addStatement(method.get(i));
-					// System.out.println(" " + method.get(i).getStatement());
-					// System.out.println("over here");
 
 				}
 
 			}
 
 			else if (isIfStateent(method.get(i).getStatement())) {
-				// System.out.println("paichi if statement");
+				
 
 				Node previousNode = nodeStack.pop();
 
@@ -247,9 +245,7 @@ public class Analyser {
 					parentOfEndParenthasis.push(currentNode);
 
 				} else if (paranthesisFound(method.get(i + 1).getStatement())) {
-					// System.out.println("paichi + 2s");
-					// System.out.println(method.get(i).getLineNumber() + " " +
-					// method.get(i).getStatement());
+					
 					i++;
 
 					Node newNode = new Node(nodeNumber);
@@ -286,6 +282,84 @@ public class Analyser {
 				}
 
 			}
+			
+			
+			else if (isDoWhileloopStarting(method.get(i).getStatement())) {
+				Node previousNode = nodeStack.pop();
+				previousNode.addChild(nodeNumber);
+				currentNode = new Node(nodeNumber);
+				nodeNumber++;
+
+				currentNode.setParentNode(previousNode);
+				currentNode.addStatement(method.get(i));
+
+				graph.add(currentNode);
+
+				if (paranthesisFound(method.get(i).getStatement())) {
+
+					Node newNode = new Node(nodeNumber);
+					nodeNumber++;
+					graph.add(newNode);
+					nodeStack.push(newNode);
+
+					newNode.setParentNode(currentNode);
+					currentNode.addChild(newNode.getNodeNumber());
+					currentNode.isDoWhileLoop = true;
+					parentOfEndParenthasis.push(currentNode);
+
+				} else if (paranthesisFound(method.get(i + 1).getStatement())) {
+					
+					i++;
+
+					Node newNode = new Node(nodeNumber);
+					nodeNumber++;
+					graph.add(newNode);
+					nodeStack.push(newNode);
+
+					newNode.setParentNode(currentNode);
+					currentNode.addChild(newNode.getNodeNumber());
+					currentNode.isDoWhileLoop = true;
+					parentOfEndParenthasis.push(currentNode);
+
+				} else {
+
+					currentNode.addChild(nodeNumber);
+					Node nestedNode = new Node(nodeNumber);
+					graph.add(nestedNode);
+					nodeNumber++;
+					nestedNode.addStatement(method.get(i + 1));
+					i += 2;
+
+					//System.out.println("llllllllll");
+					//System.out.println(method.get(i).getStatement());
+					nestedNode.addStatement(method.get(i));
+					i++;
+					
+					nestedNode.setParentNode(currentNode);
+					nestedNode.addChild(currentNode.getNodeNumber());
+
+					Node newNode = new Node(nodeNumber);
+					nodeNumber++;
+					graph.add(newNode);
+
+					newNode.setParentNode(nestedNode);
+					//currentNode.addChild(newNode.getNodeNumber());
+					nestedNode.addChild(newNode.getNodeNumber());
+					nodeStack.push(newNode);
+					continue;
+					
+					
+					//System.out.println("hhhhhhh");
+				}
+
+			}
+			
+			
+			
+			
+			
+			
+			
 
 			else if (endParanthesisFound(method.get(i).getStatement()) && !parentOfEndParenthasis.isEmpty()) {
 
@@ -387,10 +461,7 @@ public class Analyser {
 						graph.add(nextNode);
 						nextNode.setParentNode(startOfParanthesis);
 						
-						
 						nodeStack.add(nextNode);
-						
-						
 						startOfParanthesis.getParent().addChild(nextNode.getNodeNumber());
 						
 					}
@@ -400,13 +471,9 @@ public class Analyser {
 			}
 
 			else {
-				//System.out.println("jo ");
-				//System.out.println(method.get(i).getStatement());
-				//System.out.println(nodeStack.size());
 				if (nodeStack.isEmpty())
 					break;
-
-				//System.out.println("pppp");
+				
 				Node tempNode = nodeStack.pop();
 				tempNode.addStatement(method.get(i));
 				nodeStack.push(tempNode);
@@ -415,8 +482,7 @@ public class Analyser {
 			i++;
 
 		}
-
-		// graph.get(0).printStatement();
+		
 		for (int index = 0; index < graph.size(); index++) {
 			graph.get(index).printChild();
 			graph.get(index).printStatement();
@@ -439,6 +505,8 @@ public class Analyser {
 		for (int index1 = 0; index1 < graph.size(); index1++) {
 			Node node = graph.get(index1);
 
+			
+			
 			System.out.print("Node Number:  " + node.getNodeNumber() + "\t|\t\t");
 			for (int index2 = 0; index2 < graph.size(); index2++) {
 				if (node.isChild(index2 + 1)) {
@@ -451,6 +519,10 @@ public class Analyser {
 			System.out.println();
 		}
 
+	}
+
+	private boolean isDoWhileloopStarting(String statement) {
+		return patternMatcher.isMatch("^(\\s)*do", statement);
 	}
 
 	private boolean isWhileloopStarting(String statement) {
@@ -470,6 +542,9 @@ public class Analyser {
 	}
 
 	private boolean endParanthesisFound(String statement) {
+		
+		
+		
 		return patternMatcher.isMatch("\\}(\\s)*$", statement);
 	}
 

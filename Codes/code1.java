@@ -6,9 +6,9 @@ class ForLoopExample {
         int testscore = 76;
         char grade;
 
-        while() {
+        do
         	something
-        }
+        while(jhjkh);
         
         
         System.out.println("Grade = " + grade);
