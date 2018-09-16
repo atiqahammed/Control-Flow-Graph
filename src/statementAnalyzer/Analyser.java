@@ -42,7 +42,6 @@ public class Analyser {
 			// +method.get(i).getStatement());
 
 			if (isElseIfStatement(method.get(i).getStatement())) {
-				
 
 				Node elseIfNode = new Node(nodeNumber);
 				nodeNumber++;
@@ -54,7 +53,7 @@ public class Analyser {
 				elseIfNode.addStatement(method.get(i));
 
 				if (paranthesisFound(method.get(i).getStatement())) {
-					
+
 					elseIfNode.isElseIf = true;
 
 					parentOfEndParenthasis.push(elseIfNode);
@@ -66,7 +65,7 @@ public class Analyser {
 					elseIfNode.addStatement(method.get(i));
 					parentOfEndParenthasis.push(elseIfNode);
 					nodeStack.push(elseIfNode);
-					
+
 				} else {
 					i++;
 					elseIfNode.addStatement(method.get(i));
@@ -117,7 +116,7 @@ public class Analyser {
 
 					parentOfEndParenthasis.push(elseNode);
 					nodeStack.push(elseNode);
-					//i++;
+					// i++;
 
 				} else if (paranthesisFound(method.get(i + 1).getStatement())) {
 					// System.out.println("paichi");
@@ -127,7 +126,7 @@ public class Analyser {
 
 					parentOfEndParenthasis.push(elseNode);
 					nodeStack.push(elseNode);
-					//i++;
+					// i++;
 
 				} else {
 
@@ -159,7 +158,6 @@ public class Analyser {
 			}
 
 			else if (isIfStateent(method.get(i).getStatement())) {
-				
 
 				Node previousNode = nodeStack.pop();
 
@@ -173,27 +171,27 @@ public class Analyser {
 				graph.add(currentNode);
 
 				if (paranthesisFound(method.get(i).getStatement())) {
-					
+
 					currentNode.addStatement(method.get(i));
 					parentOfIf.push(previousNode);
 					parentOfEndParenthasis.push(currentNode);
 					nodeStack.push(currentNode);
-					
-					//System.out.println("paichi");
+
+					// System.out.println("paichi");
 
 				} else if (paranthesisFound(method.get(i + 1).getStatement())) {
-					
+
 					currentNode.addStatement(method.get(i));
 					i++;
 					currentNode.addStatement(method.get(i));
-					
+
 					parentOfIf.push(previousNode);
 					parentOfEndParenthasis.push(currentNode);
 					nodeStack.push(currentNode);
-					//System.out.println("got it");
+					// System.out.println("got it");
 
 				} else {
-					
+
 					currentNode.addStatement(method.get(i));
 					i++;
 
@@ -221,7 +219,8 @@ public class Analyser {
 
 			}
 
-			else if (isForloopStarting(method.get(i).getStatement())|| isWhileloopStarting(method.get(i).getStatement())) {
+			else if (isForloopStarting(method.get(i).getStatement())
+					|| isWhileloopStarting(method.get(i).getStatement())) {
 				Node previousNode = nodeStack.pop();
 				previousNode.addChild(nodeNumber);
 				currentNode = new Node(nodeNumber);
@@ -245,7 +244,7 @@ public class Analyser {
 					parentOfEndParenthasis.push(currentNode);
 
 				} else if (paranthesisFound(method.get(i + 1).getStatement())) {
-					
+
 					i++;
 
 					Node newNode = new Node(nodeNumber);
@@ -282,8 +281,7 @@ public class Analyser {
 				}
 
 			}
-			
-			
+
 			else if (isDoWhileloopStarting(method.get(i).getStatement())) {
 				Node previousNode = nodeStack.pop();
 				previousNode.addChild(nodeNumber);
@@ -308,7 +306,7 @@ public class Analyser {
 					parentOfEndParenthasis.push(currentNode);
 
 				} else if (paranthesisFound(method.get(i + 1).getStatement())) {
-					
+
 					i++;
 
 					Node newNode = new Node(nodeNumber);
@@ -330,11 +328,9 @@ public class Analyser {
 					nestedNode.addStatement(method.get(i + 1));
 					i += 2;
 
-					//System.out.println("llllllllll");
-					//System.out.println(method.get(i).getStatement());
 					nestedNode.addStatement(method.get(i));
 					i++;
-					
+
 					nestedNode.setParentNode(currentNode);
 					nestedNode.addChild(currentNode.getNodeNumber());
 
@@ -343,23 +339,29 @@ public class Analyser {
 					graph.add(newNode);
 
 					newNode.setParentNode(nestedNode);
-					//currentNode.addChild(newNode.getNodeNumber());
 					nestedNode.addChild(newNode.getNodeNumber());
 					nodeStack.push(newNode);
 					continue;
-					
-					
-					//System.out.println("hhhhhhh");
 				}
 
 			}
 			
-			
-			
-			
-			
-			
-			
+			else if(endParanthesisOfDoWhileFound(method.get(i).getStatement()) && !parentOfEndParenthasis.isEmpty()) {
+				//System.out.println("paichi 123456");
+				Node startOfParanthesis = parentOfEndParenthasis.pop();
+				Node previousNode = nodeStack.pop();
+
+				Node newNode = new Node(nodeNumber);
+				nodeNumber++;
+				graph.add(newNode);
+				previousNode.addChild(newNode.getNodeNumber());
+				//startOfParanthesis.addChild(newNode.getNodeNumber());
+				previousNode.addStatement(method.get(i));
+				newNode.setParentNode(previousNode);
+				nodeStack.push(newNode);
+				previousNode.addChild(startOfParanthesis.getNodeNumber());
+				
+			}
 
 			else if (endParanthesisFound(method.get(i).getStatement()) && !parentOfEndParenthasis.isEmpty()) {
 
@@ -381,9 +383,25 @@ public class Analyser {
 					previousNode.addChild(startOfParanthesis.getNodeNumber());
 
 				}
-				
+
+				/*
+				 * if (startOfParanthesis.isDoWhileLoop) {
+				 * System.out.println("kokoko");
+				 * 
+				 * /* Node previousNode = nodeStack.pop();
+				 * 
+				 * Node newNode = new Node(nodeNumber); nodeNumber++;
+				 * graph.add(newNode);
+				 * previousNode.addChild(newNode.getNodeNumber());
+				 * startOfParanthesis.addChild(newNode.getNodeNumber());
+				 * newNode.setParentNode(previousNode); nodeStack.push(newNode);
+				 * previousNode.addChild(startOfParanthesis.getNodeNumber());
+				 * 
+				 * }
+				 */
+
 				else if (startOfParanthesis.isElse) {
-					//startOfParanthesis.addStatement(method.get(i));
+					// startOfParanthesis.addStatement(method.get(i));
 					Node nextNode = new Node(nodeNumber);
 					nodeNumber++;
 
@@ -401,37 +419,37 @@ public class Analyser {
 
 					graph.add(nextNode);
 					nextNode.setParentNode(startOfParanthesis);
-					//System.out.println("analyzing  " + nextNode.getNodeNumber());
+					// System.out.println("analyzing " +
+					// nextNode.getNodeNumber());
 					startOfParanthesis.addStatement(method.get(i));
 					nodeStack.add(nextNode);
 
 				}
-				
-				else if(startOfParanthesis.isIf) {
-					
+
+				else if (startOfParanthesis.isIf) {
+
 					Node parentOfifNode = startOfParanthesis.getParent();
-					
+
 					if (isElseStatement(method.get(i + 1).getStatement())
 							|| isElseIfStatement(method.get(i + 1).getStatement())) {
-						
+
 						startOfParanthesis.addStatement(method.get(i));
-						
+
 					} else {
-						
+
 						Node nextNode = new Node(nodeNumber);
 						nodeNumber++;
-						
+
 						parentOfifNode.addChild(nextNode.getNodeNumber());
 						startOfParanthesis.addChild(nextNode.getNodeNumber());
 						nextNode.setParentNode(startOfParanthesis);
 						startOfParanthesis.addStatement(method.get(i));
-						
+
 						nodeStack.add(nextNode);
 						graph.add(nextNode);
-						
+
 					}
 				}
-
 
 				else if (startOfParanthesis.isElseIf) {
 
@@ -442,7 +460,7 @@ public class Analyser {
 
 					} else {
 						startOfParanthesis.addStatement(method.get(i));
-						
+
 						Node nextNode = new Node(nodeNumber);
 						nodeNumber++;
 
@@ -457,13 +475,13 @@ public class Analyser {
 								}
 							}
 						}
-						
+
 						graph.add(nextNode);
 						nextNode.setParentNode(startOfParanthesis);
-						
+
 						nodeStack.add(nextNode);
 						startOfParanthesis.getParent().addChild(nextNode.getNodeNumber());
-						
+
 					}
 
 				}
@@ -473,7 +491,7 @@ public class Analyser {
 			else {
 				if (nodeStack.isEmpty())
 					break;
-				
+
 				Node tempNode = nodeStack.pop();
 				tempNode.addStatement(method.get(i));
 				nodeStack.push(tempNode);
@@ -482,7 +500,7 @@ public class Analyser {
 			i++;
 
 		}
-		
+
 		for (int index = 0; index < graph.size(); index++) {
 			graph.get(index).printChild();
 			graph.get(index).printStatement();
@@ -505,8 +523,6 @@ public class Analyser {
 		for (int index1 = 0; index1 < graph.size(); index1++) {
 			Node node = graph.get(index1);
 
-			
-			
 			System.out.print("Node Number:  " + node.getNodeNumber() + "\t|\t\t");
 			for (int index2 = 0; index2 < graph.size(); index2++) {
 				if (node.isChild(index2 + 1)) {
@@ -542,10 +558,14 @@ public class Analyser {
 	}
 
 	private boolean endParanthesisFound(String statement) {
-		
-		
-		
+
 		return patternMatcher.isMatch("\\}(\\s)*$", statement);
+	}
+
+	private boolean endParanthesisOfDoWhileFound(String statement) {
+
+		return patternMatcher.isMatch("^(\\s)*\\}(\\s)*while", statement);
+		//return patternMatcher.isMatch("\\}(\\s)*$", statement);
 	}
 
 	private boolean paranthesisFound(String statement) {
