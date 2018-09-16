@@ -21,21 +21,25 @@ public class Test {
 		MethodFinder finder = new MethodFinder();
 		ArrayList<ArrayList<Statement>> allMethods = finder.findMethods(lines);
 		
-		//System.out.println(allMethods.size());
+		System.out.println(allMethods.size());
 		
-		Analyser analyser = new Analyser();
-		analyser.analyzeStatement(allMethods.get(0));
+		//Analyser analyser = new Analyser();
+		//analyser.analyzeStatement(allMethods.get(4));
 		
 		
 		
-		/*for(int i = 0; i < allMethods.size(); i++) {
+		
+		
+		for(int i = 0; i < allMethods.size(); i++) {
 			System.out.println(".........................");
-			
+			Analyser analyser = new Analyser();
 			analyser.analyzeStatement(allMethods.get(i));
 			
 			System.out.println();
 			System.out.println();
-		}*/
+			
+			System.out.println("======================================================");
+		}
 		
 		
 		
