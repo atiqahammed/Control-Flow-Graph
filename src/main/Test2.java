@@ -5,7 +5,7 @@ import java.io.File;
 public class Test2 {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
 
 		final File folder = new File("JDeodorant");
 		listFilesForFolder(folder);

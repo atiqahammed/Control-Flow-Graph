@@ -61,13 +61,22 @@ public class MethodFinder {
 
 				}
 
+				
+				if(currentMethod.size() > 0)
 				currentMethod.remove(currentMethod.size() - 1);
 
 				allMethods.add(currentMethod);
+				//currentMethod.remove(currentMethod.size() - 1);
 				// System.out.println("/////////////////////////////////");
 			}
 		}
 
+		
+		
+		//System.out.println(allMethods.get(allMethods.size() - 1).size() - 1);
+		
+		
+		
 		allMethods.get(allMethods.size() - 1).remove(allMethods.get(allMethods.size() - 1).size() - 1);
 		return allMethods;
 

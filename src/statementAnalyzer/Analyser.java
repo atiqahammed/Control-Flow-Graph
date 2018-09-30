@@ -20,7 +20,7 @@ public class Analyser {
 		isUsed = new HashMap<>();
 	}
 
-	public void analyzeStatement(ArrayList<Statement> method) {
+	public int analyzeStatement(ArrayList<Statement> method) {
 
 		int i = 0;
 
@@ -421,20 +421,45 @@ public class Analyser {
 			System.out.print("-\t");
 		System.out.println();
 
+		
+		
+		int cyclomaticNumber = 0;
+		
+		
+		
 		for (int index1 = 0; index1 < graph.size(); index1++) {
 			Node node = graph.get(index1);
 
+			int temp = 0;
+			
 			System.out.print("Node Number:  " + node.getNodeNumber() + "\t|\t\t");
 			for (int index2 = 0; index2 < graph.size(); index2++) {
 				if (node.isChild(index2 + 1)) {
 					System.out.print("1\t");
+					temp++;
 				} else {
 					System.out.print("0\t");
 				}
 			}
 
+			temp--;
+			if(temp < 0) temp = 0;
+			
+			System.out.print("\t\t " + temp);
+			
+			cyclomaticNumber+= temp;
 			System.out.println();
 		}
+		
+		cyclomaticNumber++;
+		
+		System.out.println("---------------------------------------");
+		System.out.println("cyclomatic nymber  = "+cyclomaticNumber);
+		
+		System.out.println();
+		System.out.println();
+		
+		return cyclomaticNumber;
 
 	}
 

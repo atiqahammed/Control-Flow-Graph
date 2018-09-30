@@ -1,0 +1,23 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int func (int aa, int bb);
+
+int main(){
+
+    int a=7,b=17;					//needs modification,comma seperated variables.
+    int sum= a+b;
+    cout<<"sum is: "<<sum<<endl;
+
+    int sub=func(a,b);
+    cout<<"subtraction: "<<sub<<endl;
+
+    char ch='A'; double d= 10.39;
+    string str="madam";
+
+    cout<<"Hello World"<<endl;
+}
+
+int func(int aa , int bb ){ 	
+    return aa-bb;
+}
